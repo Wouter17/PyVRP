@@ -1,7 +1,7 @@
 import pytest
 
-from pyvrp import CostEvaluator, RandomNumberGenerator, Solution
-from pyvrp.search import (
+from pyvrp_v12 import CostEvaluator, RandomNumberGenerator, Solution
+from pyvrp_v12.search import (
     NODE_OPERATORS,
     ROUTE_OPERATORS,
     LocalSearch,

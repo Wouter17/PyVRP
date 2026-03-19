@@ -1,7 +1,7 @@
 import pytest
 
-from pyvrp import solve
-from pyvrp.stop import MaxIterations
+from pyvrp_v12 import solve
+from pyvrp_v12.stop import MaxIterations
 
 
 @pytest.mark.parametrize("instance", ["vrptw", "mdvrp", "vrpb", "mtvrptwr"])

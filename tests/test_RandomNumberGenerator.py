@@ -2,7 +2,7 @@ import numpy as np
 from numpy.testing import assert_, assert_allclose, assert_equal
 from pytest import mark
 
-from pyvrp import RandomNumberGenerator
+from pyvrp_v12 import RandomNumberGenerator
 
 
 def test_bounds():

@@ -2,7 +2,7 @@ import numpy as np
 from matplotlib.testing.decorators import image_comparison as img_comp
 from numpy.testing import assert_, assert_equal, assert_raises
 
-from pyvrp import (
+from pyvrp_v12 import (
     CostEvaluator,
     Depot,
     Population,
@@ -17,7 +17,7 @@ from pyvrp import (
     VehicleType,
     plotting,
 )
-from pyvrp.diversity import broken_pairs_distance
+from pyvrp_v12.diversity import broken_pairs_distance
 from tests.helpers import read, read_solution
 
 IMG_KWARGS = dict(remove_text=True, tol=8, extensions=["png"], style="mpl20")

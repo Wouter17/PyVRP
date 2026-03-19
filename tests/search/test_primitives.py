@@ -1,8 +1,8 @@
 import numpy as np
 from numpy.testing import assert_, assert_equal
 
-from pyvrp import Client, CostEvaluator, Depot, ProblemData, VehicleType
-from pyvrp.search._search import (
+from pyvrp_v12 import Client, CostEvaluator, Depot, ProblemData, VehicleType
+from pyvrp_v12.search._search import (
     Node,
     Route,
     inplace_cost,

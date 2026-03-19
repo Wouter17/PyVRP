@@ -1,6 +1,6 @@
 import pytest
 
-from pyvrp import VehicleType
+from pyvrp_v12 import VehicleType
 from tests.helpers import read
 
 

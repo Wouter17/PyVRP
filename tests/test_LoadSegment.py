@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 from numpy.testing import assert_, assert_equal
 
-from pyvrp._pyvrp import LoadSegment
+from pyvrp_v12._pyvrp import LoadSegment
 
 _INT_MAX = np.iinfo(np.int64).max
 

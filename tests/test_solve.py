@@ -1,9 +1,9 @@
 from numpy.testing import assert_, assert_allclose, assert_equal
 
-from pyvrp.GeneticAlgorithm import GeneticAlgorithmParams
-from pyvrp.PenaltyManager import PenaltyParams
-from pyvrp.Population import PopulationParams
-from pyvrp.search import (
+from pyvrp_v12.GeneticAlgorithm import GeneticAlgorithmParams
+from pyvrp_v12.PenaltyManager import PenaltyParams
+from pyvrp_v12.Population import PopulationParams
+from pyvrp_v12.search import (
     NODE_OPERATORS,
     ROUTE_OPERATORS,
     Exchange10,
@@ -11,8 +11,8 @@ from pyvrp.search import (
     SwapStar,
     SwapTails,
 )
-from pyvrp.solve import SolveParams, solve
-from pyvrp.stop import MaxIterations
+from pyvrp_v12.solve import SolveParams, solve
+from pyvrp_v12.stop import MaxIterations
 from tests.helpers import DATA_DIR
 
 

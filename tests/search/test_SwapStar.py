@@ -3,7 +3,7 @@ import pytest
 from numpy.testing import assert_, assert_equal, assert_raises
 from pytest import mark
 
-from pyvrp import (
+from pyvrp_v12 import (
     Client,
     CostEvaluator,
     Depot,
@@ -12,14 +12,14 @@ from pyvrp import (
     Solution,
     VehicleType,
 )
-from pyvrp.search import (
+from pyvrp_v12.search import (
     Exchange11,
     LocalSearch,
     NeighbourhoodParams,
     SwapStar,
     compute_neighbours,
 )
-from pyvrp.search._search import Node, Route
+from pyvrp_v12.search._search import Node, Route
 from tests.helpers import make_search_route
 
 

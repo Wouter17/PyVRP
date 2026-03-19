@@ -2,7 +2,7 @@ import numpy as np
 from numpy.testing import assert_, assert_equal
 from pytest import mark
 
-from pyvrp import (
+from pyvrp_v12 import (
     Client,
     CostEvaluator,
     Depot,
@@ -11,9 +11,9 @@ from pyvrp import (
     Solution,
     VehicleType,
 )
-from pyvrp import Route as SolRoute
-from pyvrp.search import LocalSearch, SwapTails
-from pyvrp.search._search import Node
+from pyvrp_v12 import Route as SolRoute
+from pyvrp_v12.search import LocalSearch, SwapTails
+from pyvrp_v12.search._search import Node
 from tests.helpers import make_search_route
 
 

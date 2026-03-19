@@ -2,8 +2,8 @@ import numpy as np
 from numpy.testing import assert_, assert_equal, assert_raises
 from pytest import mark
 
-from pyvrp import VehicleType
-from pyvrp.search import NeighbourhoodParams, compute_neighbours
+from pyvrp_v12 import VehicleType
+from pyvrp_v12.search import NeighbourhoodParams, compute_neighbours
 
 
 def test_neighbourhood_params_raises_for_empty_neighbourhoods():

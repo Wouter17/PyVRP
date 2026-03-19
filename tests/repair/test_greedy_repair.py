@@ -1,8 +1,8 @@
 import pytest
 from numpy.testing import assert_, assert_equal, assert_raises
 
-from pyvrp import CostEvaluator, RandomNumberGenerator, Route, Solution
-from pyvrp.repair import greedy_repair
+from pyvrp_v12 import CostEvaluator, RandomNumberGenerator, Route, Solution
+from pyvrp_v12.repair import greedy_repair
 
 
 def test_raises_given_no_routes_and_unplanned_clients(ok_small):

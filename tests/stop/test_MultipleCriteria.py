@@ -1,7 +1,7 @@
 from numpy.testing import assert_, assert_raises
 from pytest import mark
 
-from pyvrp.stop import MaxIterations, MaxRuntime, MultipleCriteria
+from pyvrp_v12.stop import MaxIterations, MaxRuntime, MultipleCriteria
 from tests.helpers import sleep
 
 

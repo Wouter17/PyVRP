@@ -8,7 +8,7 @@ import numpy as np
 import pytest
 from numpy.testing import assert_equal, assert_raises
 
-from pyvrp import Client
+from pyvrp_v12 import Client
 
 
 @pytest.mark.parametrize(

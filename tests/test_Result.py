@@ -4,10 +4,10 @@ import pickle
 import pytest
 from numpy.testing import assert_, assert_allclose, assert_equal, assert_raises
 
-from pyvrp import CostEvaluator, Population, RandomNumberGenerator, Solution
-from pyvrp.Result import Result
-from pyvrp.Statistics import Statistics
-from pyvrp.diversity import broken_pairs_distance
+from pyvrp_v12 import CostEvaluator, Population, RandomNumberGenerator, Solution
+from pyvrp_v12.Result import Result
+from pyvrp_v12.Statistics import Statistics
+from pyvrp_v12.diversity import broken_pairs_distance
 
 
 @pytest.mark.parametrize(

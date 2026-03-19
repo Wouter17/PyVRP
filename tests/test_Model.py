@@ -7,10 +7,10 @@ from numpy.testing import (
     assert_warns,
 )
 
-from pyvrp import Client, ClientGroup, Depot, Model, Profile, VehicleType
-from pyvrp.constants import MAX_VALUE
-from pyvrp.exceptions import ScalingWarning
-from pyvrp.stop import MaxIterations
+from pyvrp_v12 import Client, ClientGroup, Depot, Model, Profile, VehicleType
+from pyvrp_v12.constants import MAX_VALUE
+from pyvrp_v12.exceptions import ScalingWarning
+from pyvrp_v12.stop import MaxIterations
 from tests.helpers import read_solution
 
 

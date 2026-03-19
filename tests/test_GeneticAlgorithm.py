@@ -4,7 +4,7 @@ import numpy as np
 from numpy.testing import assert_, assert_allclose, assert_equal, assert_raises
 from pytest import mark
 
-from pyvrp import (
+from pyvrp_v12 import (
     GeneticAlgorithm,
     GeneticAlgorithmParams,
     PenaltyManager,
@@ -14,10 +14,10 @@ from pyvrp import (
     RandomNumberGenerator,
     Solution,
 )
-from pyvrp.crossover import selective_route_exchange as srex
-from pyvrp.diversity import broken_pairs_distance as bpd
-from pyvrp.search import Exchange10, LocalSearch, compute_neighbours
-from pyvrp.stop import MaxIterations
+from pyvrp_v12.crossover import selective_route_exchange as srex
+from pyvrp_v12.diversity import broken_pairs_distance as bpd
+from pyvrp_v12.search import Exchange10, LocalSearch, compute_neighbours
+from pyvrp_v12.stop import MaxIterations
 from tests.helpers import read_solution
 
 

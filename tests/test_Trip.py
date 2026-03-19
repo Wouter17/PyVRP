@@ -1,7 +1,7 @@
 import pytest
 from numpy.testing import assert_, assert_allclose, assert_equal, assert_raises
 
-from pyvrp import Route, Trip
+from pyvrp_v12 import Route, Trip
 
 
 @pytest.mark.parametrize(("start_idx", "end_idx"), [(1, 0), (0, 1)])

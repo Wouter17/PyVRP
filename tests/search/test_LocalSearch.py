@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 from numpy.testing import assert_, assert_equal, assert_raises
 
-from pyvrp import (
+from pyvrp_v12 import (
     Client,
     CostEvaluator,
     Depot,
@@ -13,7 +13,7 @@ from pyvrp import (
     Trip,
     VehicleType,
 )
-from pyvrp.search import (
+from pyvrp_v12.search import (
     Exchange10,
     Exchange11,
     LocalSearch,
@@ -23,7 +23,7 @@ from pyvrp.search import (
     SwapStar,
     compute_neighbours,
 )
-from pyvrp.search._search import LocalSearch as cpp_LocalSearch
+from pyvrp_v12.search._search import LocalSearch as cpp_LocalSearch
 
 
 def test_local_search_returns_same_solution_with_empty_neighbourhood(ok_small):

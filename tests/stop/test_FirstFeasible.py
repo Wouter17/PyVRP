@@ -1,7 +1,7 @@
 from numpy.testing import assert_
 
-from pyvrp import CostEvaluator, Solution
-from pyvrp.stop import FirstFeasible
+from pyvrp_v12 import CostEvaluator, Solution
+from pyvrp_v12.stop import FirstFeasible
 
 
 def test_stops_on_first_feasible_solution(ok_small):

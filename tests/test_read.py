@@ -10,9 +10,9 @@ from numpy.testing import (
     assert_warns,
 )
 
-from pyvrp import CostEvaluator
-from pyvrp.constants import MAX_VALUE
-from pyvrp.exceptions import ScalingWarning
+from pyvrp_v12 import CostEvaluator
+from pyvrp_v12.constants import MAX_VALUE
+from pyvrp_v12.exceptions import ScalingWarning
 from tests.helpers import read, read_solution
 
 

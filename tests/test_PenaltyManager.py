@@ -8,8 +8,8 @@ from numpy.testing import (
     assert_warns,
 )
 
-from pyvrp import PenaltyManager, PenaltyParams, Solution, VehicleType
-from pyvrp.exceptions import PenaltyBoundWarning
+from pyvrp_v12 import PenaltyManager, PenaltyParams, Solution, VehicleType
+from pyvrp_v12.exceptions import PenaltyBoundWarning
 
 
 @pytest.mark.parametrize(

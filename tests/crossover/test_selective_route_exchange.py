@@ -9,16 +9,16 @@ from numpy.testing import (
 )
 from pytest import mark
 
-from pyvrp import (
+from pyvrp_v12 import (
     CostEvaluator,
     RandomNumberGenerator,
     Route,
     Solution,
     VehicleType,
 )
-from pyvrp.crossover import selective_route_exchange as srex
-from pyvrp.crossover._crossover import selective_route_exchange as cpp_srex
-from pyvrp.exceptions import TspWarning
+from pyvrp_v12.crossover import selective_route_exchange as srex
+from pyvrp_v12.crossover._crossover import selective_route_exchange as cpp_srex
+from pyvrp_v12.exceptions import TspWarning
 
 
 def test_same_parents_same_offspring(ok_small):

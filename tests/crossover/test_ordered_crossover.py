@@ -1,8 +1,8 @@
 from numpy.testing import assert_equal, assert_raises
 
-from pyvrp import CostEvaluator, RandomNumberGenerator, Solution, VehicleType
-from pyvrp.crossover import ordered_crossover as ox
-from pyvrp.crossover._crossover import ordered_crossover as cpp_ox
+from pyvrp_v12 import CostEvaluator, RandomNumberGenerator, Solution, VehicleType
+from pyvrp_v12.crossover import ordered_crossover as ox
+from pyvrp_v12.crossover._crossover import ordered_crossover as cpp_ox
 
 
 def test_raises_when_not_tsp(ok_small):

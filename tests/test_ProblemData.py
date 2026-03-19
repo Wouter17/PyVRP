@@ -5,7 +5,7 @@ import pytest
 from numpy.random import default_rng
 from numpy.testing import assert_, assert_allclose, assert_equal, assert_raises
 
-from pyvrp import Client, ClientGroup, Depot, ProblemData, VehicleType
+from pyvrp_v12 import Client, ClientGroup, Depot, ProblemData, VehicleType
 
 _INT_MAX = np.iinfo(np.int64).max
 _MAX_SIZE = np.iinfo(np.uint64).max

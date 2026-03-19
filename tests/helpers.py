@@ -2,10 +2,10 @@ import pathlib
 import time
 from functools import lru_cache
 
-from pyvrp import ProblemData
-from pyvrp.read import read as _read
-from pyvrp.read import read_solution as _read_solution
-from pyvrp.search._search import Node, Route
+from pyvrp_v12 import ProblemData
+from pyvrp_v12.read import read as _read
+from pyvrp_v12.read import read_solution as _read_solution
+from pyvrp_v12.search._search import Node, Route
 
 # Full path to the data directory used in tests.
 DATA_DIR = pathlib.Path(__file__).parent / "data"

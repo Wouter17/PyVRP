@@ -1,7 +1,7 @@
 from numpy.testing import assert_, assert_raises
 from pytest import mark
 
-from pyvrp.stop import MaxIterations
+from pyvrp_v12.stop import MaxIterations
 
 
 @mark.parametrize("max_iterations", [-1, -42, -10000])

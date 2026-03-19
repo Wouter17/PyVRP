@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 from numpy.testing import assert_, assert_equal, assert_raises
 
-from pyvrp import (
+from pyvrp_v12 import (
     Client,
     CostEvaluator,
     Depot,

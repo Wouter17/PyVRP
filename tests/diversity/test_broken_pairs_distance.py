@@ -1,8 +1,8 @@
 import pytest
 from numpy.testing import assert_allclose
 
-from pyvrp import Solution
-from pyvrp.diversity import broken_pairs_distance as bpd
+from pyvrp_v12 import Solution
+from pyvrp_v12.diversity import broken_pairs_distance as bpd
 
 
 def test_bpd_same_solution_is_zero(ok_small):

@@ -1,14 +1,14 @@
 import pytest
 from numpy.testing import assert_, assert_equal
 
-from pyvrp import (
+from pyvrp_v12 import (
     CostEvaluator,
     Population,
     RandomNumberGenerator,
     Solution,
     Statistics,
 )
-from pyvrp.diversity import broken_pairs_distance
+from pyvrp_v12.diversity import broken_pairs_distance
 
 
 def test_csv_serialises_correctly(ok_small, tmp_path):

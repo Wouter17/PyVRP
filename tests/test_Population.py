@@ -7,14 +7,14 @@ from numpy.testing import (
 )
 from pytest import mark
 
-from pyvrp import (
+from pyvrp_v12 import (
     CostEvaluator,
     Population,
     PopulationParams,
     RandomNumberGenerator,
     Solution,
 )
-from pyvrp.diversity import broken_pairs_distance as bpd
+from pyvrp_v12.diversity import broken_pairs_distance as bpd
 
 
 @mark.parametrize(

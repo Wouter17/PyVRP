@@ -2,14 +2,14 @@ import numpy as np
 from numpy.testing import assert_, assert_allclose, assert_equal
 from pytest import mark
 
-from pyvrp import (
+from pyvrp_v12 import (
     CostEvaluator,
     PopulationParams,
     RandomNumberGenerator,
     Solution,
 )
-from pyvrp._pyvrp import SubPopulation
-from pyvrp.diversity import broken_pairs_distance as bpd
+from pyvrp_v12._pyvrp import SubPopulation
+from pyvrp_v12.diversity import broken_pairs_distance as bpd
 
 
 @mark.parametrize("num_close", [5, 10, 25])

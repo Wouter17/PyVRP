@@ -1,7 +1,7 @@
 import pytest
 from numpy.testing import assert_, assert_equal, assert_raises
 
-from pyvrp import (
+from pyvrp_v12 import (
     CostEvaluator,
     Population,
     RandomNumberGenerator,
@@ -9,8 +9,8 @@ from pyvrp import (
     Solution,
     Statistics,
 )
-from pyvrp.ProgressPrinter import ProgressPrinter
-from pyvrp.diversity import broken_pairs_distance as bpd
+from pyvrp_v12.ProgressPrinter import ProgressPrinter
+from pyvrp_v12.diversity import broken_pairs_distance as bpd
 
 
 def test_raises_negative_display_interval():

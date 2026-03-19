@@ -1,5 +1,5 @@
 [project]
-name = "pyvrp"
+name = "pyvrp_v12"
 version = "0.12.2"
 description = "A state-of-the-art vehicle routing problem solver."
 authors = [
@@ -44,7 +44,7 @@ issues = "https://github.com/PyVRP/PyVRP/issues"
 
 
 [project.scripts]
-pyvrp = "pyvrp.cli:main"
+pyvrp_v12 = "pyvrp_v12.cli:main"
 
 
 [dependency-groups]
@@ -96,7 +96,7 @@ select = [
 
 [tool.ruff.lint.isort]
 case-sensitive = true
-known-first-party = ["pyvrp", "tests"]
+known-first-party = ["pyvrp_v12", "tests"]
 
 
 [tool.mypy]
@@ -116,8 +116,8 @@ testpaths = "tests"
 [tool.coverage.run]
 omit = [
     "buildtools/*.py",  # build scripts
-    "pyvrp/show_versions.py",  # only prints debug information
-    "pyvrp/cli.py",  # tested in other ways than unit tests
+    "pyvrp_v12/show_versions.py",  # only prints debug information
+    "pyvrp_v12/cli.py",  # tested in other ways than unit tests
     ".venv/*",
     "benchmarks/*",
     "docs/*",
@@ -157,14 +157,14 @@ include = [
     { path = "buildtools/*.py", format = "sdist" },
     { path = "subprojects/*.wrap", format = "sdist" },
 
-    { path = "pyvrp/**/*.so", format = "wheel" },
-    { path = "pyvrp/**/*.pyd", format = "wheel" },
+    { path = "pyvrp_v12/**/*.so", format = "wheel" },
+    { path = "pyvrp_v12/**/*.pyd", format = "wheel" },
 ]
 exclude = [
     "docs/build",
 ]
 packages = [
-    { include = "pyvrp" },
+    { include = "pyvrp_v12" },
 ]
 
 

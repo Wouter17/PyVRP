@@ -1,5 +1,5 @@
 project(
-    'pyvrp',
+    'pyvrp_v12',
     'cpp',
     version: run_command(
         'awk',
@@ -29,11 +29,11 @@ endif
 # per extension module. These are linked against when we compile the actual 
 # Python extension modules down below. We also define the top-level source 
 # directory here, for convenience.
-SRC_DIR = 'pyvrp' / 'cpp'
+SRC_DIR = 'pyvrp_v12' / 'cpp'
 INCLUDES = include_directories(SRC_DIR)
 
 libpyvrp = static_library(
-    'pyvrp',
+    'pyvrp_v12',
     [
         SRC_DIR / 'CostEvaluator.cpp',
         SRC_DIR / 'DynamicBitset.cpp',
@@ -138,7 +138,7 @@ foreach extension : extensions
         dependencies: dependencies,
         link_with: extension[2],
         install: true,
-        subdir: 'pyvrp' / subdir,
+        subdir: 'pyvrp_v12' / subdir,
         include_directories: INCLUDES,
     )
 endforeach

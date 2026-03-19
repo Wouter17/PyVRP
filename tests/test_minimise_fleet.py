@@ -1,7 +1,7 @@
 from numpy.testing import assert_, assert_equal, assert_raises
 
-from pyvrp import minimise_fleet
-from pyvrp.stop import MaxIterations
+from pyvrp_v12 import minimise_fleet
+from pyvrp_v12.stop import MaxIterations
 from tests.helpers import read
 
 

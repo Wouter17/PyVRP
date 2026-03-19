@@ -2,8 +2,8 @@ import numpy as np
 import pytest
 from numpy.testing import assert_, assert_equal
 
-from pyvrp import Client, CostEvaluator, Depot, ProblemData, VehicleType
-from pyvrp.search import RelocateWithDepot
+from pyvrp_v12 import Client, CostEvaluator, Depot, ProblemData, VehicleType
+from pyvrp_v12.search import RelocateWithDepot
 from tests.helpers import make_search_route
 
 
