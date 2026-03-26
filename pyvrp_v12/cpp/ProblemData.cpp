@@ -570,6 +570,45 @@ size_t ProblemData::numProfiles() const
 
 size_t ProblemData::numLoadDimensions() const { return numLoadDimensions_; }
 
+std::vector<std::pair<size_t, size_t>> ProblemData::computePairsFromClients(
+    std::vector<Client> const &clients)
+{
+    std::unordered_map<size_t, std::pair<std::optional<int>, std::optional<int>>> pairs;
+
+    for (size_t i = 0; i < clients.size(); ++i)
+    {
+        auto const &c = clients[i];
+        if (!c.pair) continue;
+
+        auto &entry = pairs[*c.pair];
+        if (c.isPickup)
+        {
+            if (entry.first.has_value())
+                throw std::runtime_error("Duplicate pickup for pair " + std::to_string(*c.pair));
+            entry.first = static_cast<int>(i);
+        }
+        else
+        {
+            if (entry.second.has_value())
+                throw std::runtime_error("Duplicate delivery for pair " + std::to_string(*c.pair));
+            entry.second = static_cast<int>(i);
+        }
+    }
+
+    std::vector<std::pair<size_t, size_t>> result;
+    result.reserve(pairs.size());
+
+    for (auto const &kv : pairs)
+    {
+        if (!kv.second.first.has_value() || !kv.second.second.has_value())
+            throw std::runtime_error("Incomplete pickup-delivery pair " + std::to_string(kv.first));
+
+        result.emplace_back(kv.second.first.value(), kv.second.second.value());
+    }
+
+    return result;
+}
+
 void ProblemData::validate() const
 {
     // Client checks.
@@ -751,8 +790,7 @@ ProblemData::replace(std::optional<std::vector<Client>> &clients,
                      std::optional<std::vector<VehicleType>> &vehicleTypes,
                      std::optional<std::vector<Matrix<Distance>>> &distMats,
                      std::optional<std::vector<Matrix<Duration>>> &durMats,
-                     std::optional<std::vector<ClientGroup>> &groups,
-                     std::optional<std::vector<std::pair<size_t, size_t>>> &pickupDeliveryPairs
+                     std::optional<std::vector<ClientGroup>> &groups
                     ) const
 {
     return {clients.value_or(clients_),
@@ -760,8 +798,7 @@ ProblemData::replace(std::optional<std::vector<Client>> &clients,
             vehicleTypes.value_or(vehicleTypes_),
             distMats.value_or(dists_),
             durMats.value_or(durs_),
-            groups.value_or(groups_),
-            pickupDeliveryPairs.value_or(pickupDeliveryPairs_)
+            groups.value_or(groups_)
         };
 }
 
@@ -770,15 +807,14 @@ ProblemData::ProblemData(std::vector<Client> clients,
                          std::vector<VehicleType> vehicleTypes,
                          std::vector<Matrix<Distance>> distMats,
                          std::vector<Matrix<Duration>> durMats,
-                         std::vector<ClientGroup> groups,
-                         std::vector<std::pair<size_t, size_t>> pickupDeliveryPairs)
+                         std::vector<ClientGroup> groups)
     : dists_(std::move(distMats)),
       durs_(std::move(durMats)),
       clients_(std::move(clients)),
       depots_(std::move(depots)),
       vehicleTypes_(std::move(vehicleTypes)),
       groups_(std::move(groups)),
-      pickupDeliveryPairs_(std::move(pickupDeliveryPairs)),
+      pickupDeliveryPairs_(computePairsFromClients(clients_)),
       numVehicles_(std::accumulate(vehicleTypes_.begin(),
                                    vehicleTypes_.end(),
                                    0,

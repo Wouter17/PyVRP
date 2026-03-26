@@ -594,6 +594,8 @@ private:
     size_t const numLoadDimensions_;
     bool const hasTimeWindows_;
 
+    static std::vector<std::pair<size_t, size_t>> computePairsFromClients(std::vector<Client> const &clients);
+
 public:
     bool operator==(ProblemData const &other) const = default;
 
@@ -791,8 +793,7 @@ public:
                         std::optional<std::vector<VehicleType>> &vehicleTypes,
                         std::optional<std::vector<Matrix<Distance>>> &distMats,
                         std::optional<std::vector<Matrix<Duration>>> &durMats,
-                        std::optional<std::vector<ClientGroup>> &groups,
-                        std::optional<std::vector<std::pair<size_t, size_t>>> &pickupDeliveryPairs
+                        std::optional<std::vector<ClientGroup>> &groups
                     ) const;
 
     ProblemData(std::vector<Client> clients,
@@ -800,8 +801,7 @@ public:
                 std::vector<VehicleType> vehicleTypes,
                 std::vector<Matrix<Distance>> distMats,
                 std::vector<Matrix<Duration>> durMats,
-                std::vector<ClientGroup> groups = {},
-                std::vector<std::pair<size_t, size_t>> pickupDeliveryPairs = {}
+                std::vector<ClientGroup> groups = {}
             );
 
     ProblemData() = delete;

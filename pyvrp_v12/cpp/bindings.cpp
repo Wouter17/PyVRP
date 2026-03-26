@@ -39,8 +39,6 @@ using pyvrp::Solution;
 using pyvrp::SubPopulation;
 using pyvrp::Trip;
 
-typedef std::pair<size_t, size_t> TaskPair;
-PYBIND11_MAKE_OPAQUE(TaskPair);
 PYBIND11_MODULE(_pyvrp, m)
 {
     py::class_<DynamicBitset>(m, "DynamicBitset", DOC(pyvrp, DynamicBitset))
@@ -406,15 +404,13 @@ PYBIND11_MODULE(_pyvrp, m)
                       std::vector<ProblemData::VehicleType>,
                       std::vector<Matrix<pyvrp::Distance>>,
                       std::vector<Matrix<pyvrp::Duration>>,
-                      std::vector<ProblemData::ClientGroup>,
-                      std::vector<TaskPair>>(),
+                      std::vector<ProblemData::ClientGroup>>(),
              py::arg("clients"),
              py::arg("depots"),
              py::arg("vehicle_types"),
              py::arg("distance_matrices"),
              py::arg("duration_matrices"),
-             py::arg("groups") = py::list(),
-             py::arg("pickupDeliveryPairs"))
+             py::arg("groups") = py::list())
         .def("replace",
              &ProblemData::replace,
              py::arg("clients") = py::none(),
@@ -423,7 +419,6 @@ PYBIND11_MODULE(_pyvrp, m)
              py::arg("distance_matrices") = py::none(),
              py::arg("duration_matrices") = py::none(),
              py::arg("groups") = py::none(),
-             py::arg("pickupDeliveryPairs") = py::none(),
              DOC(pyvrp, ProblemData, replace))
         .def_property_readonly("num_clients",
                                &ProblemData::numClients,
@@ -526,8 +521,7 @@ PYBIND11_MODULE(_pyvrp, m)
                                       data.vehicleTypes(),
                                       data.distanceMatrices(),
                                       data.durationMatrices(),
-                                      data.groups(),
-                                      data.pickupDeliveryPairs());
+                                      data.groups());
             },
             [](py::tuple t) {  // __setstate__
                 using Clients = std::vector<ProblemData::Client>;
@@ -536,15 +530,13 @@ PYBIND11_MODULE(_pyvrp, m)
                 using DistMats = std::vector<pyvrp::Matrix<pyvrp::Distance>>;
                 using DurMats = std::vector<pyvrp::Matrix<pyvrp::Duration>>;
                 using Groups = std::vector<ProblemData::ClientGroup>;
-                using pickupDeliveryPairs = std::vector<TaskPair>;
 
                 ProblemData data(t[0].cast<Clients>(),
                                  t[1].cast<Depots>(),
                                  t[2].cast<VehicleTypes>(),
                                  t[3].cast<DistMats>(),
                                  t[4].cast<DurMats>(),
-                                 t[5].cast<Groups>(),
-                                 t[6].cast<pickupDeliveryPairs>());
+                                 t[5].cast<Groups>());
 
                 return data;
             }));
