@@ -4,6 +4,7 @@
 #include <cstring>
 #include <numeric>
 #include <stdexcept>
+#include <unordered_map>
 
 using pyvrp::Distance;
 using pyvrp::Duration;
@@ -64,7 +65,9 @@ ProblemData::Client::Client(Coordinate x,
                             Cost prize,
                             bool required,
                             std::optional<size_t> group,
-                            std::string name)
+                            std::string name,
+                            std::optional<size_t> pair,
+                            bool isPickup)
     : x(x),
       y(y),
       serviceDuration(serviceDuration),
@@ -76,7 +79,9 @@ ProblemData::Client::Client(Coordinate x,
       prize(prize),
       required(required),
       group(group),
-      name(duplicate(name.data()))
+      name(duplicate(name.data())),
+      pair(pair),
+      isPickup(isPickup)
 {
     assert(delivery.size() == pickup.size());
 
@@ -117,7 +122,9 @@ ProblemData::Client::Client(Client const &client)
       prize(client.prize),
       required(client.required),
       group(client.group),
-      name(duplicate(client.name))
+      name(duplicate(client.name)),
+      pair(client.pair),
+      isPickup(client.isPickup)
 {
 }
 
@@ -133,7 +140,9 @@ ProblemData::Client::Client(Client &&client)
       prize(client.prize),
       required(client.required),
       group(client.group),
-      name(client.name)  // we can steal
+      name(client.name),  // we can steal
+      pair(client.pair),
+      isPickup(client.isPickup)
 {
     client.name = nullptr;  // stolen
 }
@@ -154,6 +163,8 @@ bool ProblemData::Client::operator==(Client const &other) const
         && prize == other.prize
         && required == other.required
         && group == other.group
+        && pair == other.pair
+        && isPickup == other.isPickup
         && std::strcmp(name, other.name) == 0;
     // clang-format on
 }
@@ -500,6 +511,11 @@ std::vector<ProblemData::ClientGroup> const &ProblemData::groups() const
     return groups_;
 }
 
+std::vector<std::pair<size_t, size_t>> const &ProblemData::pickupDeliveryPairs() const
+{
+    return pickupDeliveryPairs_;
+}
+
 std::vector<ProblemData::VehicleType> const &ProblemData::vehicleTypes() const
 {
     return vehicleTypes_;
@@ -687,6 +703,46 @@ void ProblemData::validate() const
                                             "all zero.");
         }
     }
+
+    // Map from pair ID to (pickup index, delivery index)
+    std::unordered_map<size_t, std::pair<std::optional<int>, std::optional<int>>> pairs;
+
+    // Iterate over all clients
+    for (size_t i = 0; i < clients_.size(); ++i)
+    {
+        auto const &c = clients_[i];
+
+        // Skip clients that are not part of a pair
+        if (!c.pair)
+            continue;
+
+        auto &entry = pairs[*c.pair];
+
+        if (c.isPickup)
+        {
+            if (entry.first.has_value())
+                throw std::runtime_error("Duplicate pickup for pair " + std::to_string(*c.pair));
+            entry.first = static_cast<int>(i);
+        }
+        else
+        {
+            if (entry.second.has_value())
+                throw std::runtime_error("Duplicate delivery for pair " + std::to_string(*c.pair));
+            entry.second = static_cast<int>(i);
+        }
+    }
+
+    // Check completeness: every pair must have both a pickup and a delivery
+    for (auto const &kv : pairs)
+    {
+        size_t pairId = kv.first;
+        auto const &pr = kv.second;
+
+        if (!pr.first.has_value())
+            throw std::runtime_error("Missing pickup for pair " + std::to_string(pairId));
+        if (!pr.second.has_value())
+            throw std::runtime_error("Missing delivery for pair " + std::to_string(pairId));
+    }
 }
 
 ProblemData
@@ -695,14 +751,18 @@ ProblemData::replace(std::optional<std::vector<Client>> &clients,
                      std::optional<std::vector<VehicleType>> &vehicleTypes,
                      std::optional<std::vector<Matrix<Distance>>> &distMats,
                      std::optional<std::vector<Matrix<Duration>>> &durMats,
-                     std::optional<std::vector<ClientGroup>> &groups) const
+                     std::optional<std::vector<ClientGroup>> &groups,
+                     std::optional<std::vector<std::pair<size_t, size_t>>> &pickupDeliveryPairs
+                    ) const
 {
     return {clients.value_or(clients_),
             depots.value_or(depots_),
             vehicleTypes.value_or(vehicleTypes_),
             distMats.value_or(dists_),
             durMats.value_or(durs_),
-            groups.value_or(groups_)};
+            groups.value_or(groups_),
+            pickupDeliveryPairs.value_or(pickupDeliveryPairs_)
+        };
 }
 
 ProblemData::ProblemData(std::vector<Client> clients,
@@ -710,13 +770,15 @@ ProblemData::ProblemData(std::vector<Client> clients,
                          std::vector<VehicleType> vehicleTypes,
                          std::vector<Matrix<Distance>> distMats,
                          std::vector<Matrix<Duration>> durMats,
-                         std::vector<ClientGroup> groups)
+                         std::vector<ClientGroup> groups,
+                         std::vector<std::pair<size_t, size_t>> pickupDeliveryPairs)
     : dists_(std::move(distMats)),
       durs_(std::move(durMats)),
       clients_(std::move(clients)),
       depots_(std::move(depots)),
       vehicleTypes_(std::move(vehicleTypes)),
       groups_(std::move(groups)),
+      pickupDeliveryPairs_(std::move(pickupDeliveryPairs)),
       numVehicles_(std::accumulate(vehicleTypes_.begin(),
                                    vehicleTypes_.end(),
                                    0,

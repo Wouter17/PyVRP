@@ -173,6 +173,9 @@ public:
         std::optional<size_t> const group;  // Optional client group membership
         char const *name;                   // Client name (for reference)
 
+        std::optional<size_t> const pair;
+        bool const isPickup;
+
         Client(Coordinate x,
                Coordinate y,
                std::vector<Load> delivery = {},
@@ -184,7 +187,9 @@ public:
                Cost prize = 0,
                bool required = true,
                std::optional<size_t> group = std::nullopt,
-               std::string name = "");
+               std::string name = "",
+               std::optional<size_t> pair = std::nullopt,
+               bool isPickup = false);
 
         bool operator==(Client const &other) const;
 
@@ -583,6 +588,7 @@ private:
     std::vector<Depot> const depots_;              // Depot information
     std::vector<VehicleType> const vehicleTypes_;  // Vehicle type information
     std::vector<ClientGroup> const groups_;        // Client groups
+    std::vector<std::pair<size_t, size_t>> const pickupDeliveryPairs_;
 
     size_t const numVehicles_;
     size_t const numLoadDimensions_;
@@ -617,6 +623,8 @@ public:
      * Returns a list of all client groups in the problem instance.
      */
     [[nodiscard]] std::vector<ClientGroup> const &groups() const;
+
+    [[nodiscard]] std::vector<std::pair<size_t, size_t>> const &pickupDeliveryPairs() const;
 
     /**
      * Returns a list of all vehicle types in the problem instance.
@@ -783,14 +791,18 @@ public:
                         std::optional<std::vector<VehicleType>> &vehicleTypes,
                         std::optional<std::vector<Matrix<Distance>>> &distMats,
                         std::optional<std::vector<Matrix<Duration>>> &durMats,
-                        std::optional<std::vector<ClientGroup>> &groups) const;
+                        std::optional<std::vector<ClientGroup>> &groups,
+                        std::optional<std::vector<std::pair<size_t, size_t>>> &pickupDeliveryPairs
+                    ) const;
 
     ProblemData(std::vector<Client> clients,
                 std::vector<Depot> depots,
                 std::vector<VehicleType> vehicleTypes,
                 std::vector<Matrix<Distance>> distMats,
                 std::vector<Matrix<Duration>> durMats,
-                std::vector<ClientGroup> groups = {});
+                std::vector<ClientGroup> groups = {},
+                std::vector<std::pair<size_t, size_t>> pickupDeliveryPairs = {}
+            );
 
     ProblemData() = delete;
 };

@@ -108,6 +108,7 @@ class Model:
         self._groups: list[ClientGroup] = []
         self._profiles: list[Profile] = []
         self._vehicle_types: list[VehicleType] = []
+        self._pickupDeliveryPairs: list[tuple[int, int]] = []
 
     @property
     def clients(self) -> list[Client]:
@@ -155,6 +156,10 @@ class Model:
         these vehicle types.
         """
         return self._vehicle_types
+    
+    @property
+    def pickupDeliveryPairs(self) -> list[tuple[int, int]]:
+        return self._pickupDeliveryPairs
 
     @classmethod
     def from_data(cls, data: ProblemData) -> "Model":
@@ -217,6 +222,8 @@ class Model:
         prize: int = 0,
         required: bool = True,
         group: ClientGroup | None = None,
+        pair: int | None = None,
+        isPickup: bool = False,
         *,
         name: str = "",
     ) -> Client:
@@ -256,6 +263,8 @@ class Model:
             required=required,
             group=group_idx,
             name=name,
+            pair=pair,
+            isPickup = isPickup,
         )
 
         if group_idx is not None:
@@ -500,6 +509,7 @@ class Model:
             distances,
             durations,
             self._groups,
+            self._pickupDeliveryPairs
         )
 
     def solve(

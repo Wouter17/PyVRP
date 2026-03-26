@@ -46,6 +46,8 @@ class Client:
     required: bool
     group: int | None
     name: str
+    pair: int | None
+    isPickup: bool
     def __init__(
         self,
         x: float,
@@ -61,6 +63,8 @@ class Client:
         group: int | None = None,
         *,
         name: str = "",
+        pair: int | None = None,
+        isPickup: bool = False,
     ) -> None: ...
     def __eq__(self, other: object) -> bool: ...
     def __getstate__(self) -> tuple: ...
@@ -188,6 +192,7 @@ class ProblemData:
         distance_matrices: list[np.ndarray[int]],
         duration_matrices: list[np.ndarray[int]],
         groups: list[ClientGroup] = [],
+        pickupDeliveryPairs: list[tuple[int, int]] = []
     ) -> None: ...
     def location(self, idx: int) -> Client | Depot: ...
     def clients(self) -> list[Client]: ...
@@ -204,6 +209,7 @@ class ProblemData:
         distance_matrices: list[np.ndarray[int]] | None = None,
         duration_matrices: list[np.ndarray[int]] | None = None,
         groups: list[ClientGroup] | None = None,
+        pickupDeliveryPairs: list[tuple[int, int]] | None = None,
     ) -> ProblemData: ...
     def centroid(self) -> tuple[float, float]: ...
     def group(self, group: int) -> ClientGroup: ...

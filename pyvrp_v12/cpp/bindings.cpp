@@ -17,6 +17,7 @@
 #include <pybind11/operators.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
+#include <pybind11/stl_bind.h>
 
 #include <memory>
 #include <sstream>
@@ -38,6 +39,8 @@ using pyvrp::Solution;
 using pyvrp::SubPopulation;
 using pyvrp::Trip;
 
+typedef std::pair<size_t, size_t> TaskPair;
+PYBIND11_MAKE_OPAQUE(TaskPair);
 PYBIND11_MODULE(_pyvrp, m)
 {
     py::class_<DynamicBitset>(m, "DynamicBitset", DOC(pyvrp, DynamicBitset))
@@ -77,7 +80,10 @@ PYBIND11_MODULE(_pyvrp, m)
                       pyvrp::Cost,
                       bool,
                       std::optional<size_t>,
-                      char const *>(),
+                      char const *,
+                      std::optional<size_t>,
+                      bool
+                    >(),
              py::arg("x"),
              py::arg("y"),
              py::arg("delivery") = py::list(),
@@ -90,7 +96,9 @@ PYBIND11_MODULE(_pyvrp, m)
              py::arg("required") = true,
              py::arg("group") = py::none(),
              py::kw_only(),
-             py::arg("name") = "")
+             py::arg("name") = "",
+             py::arg("pair") = py::none(),
+             py::arg("isPickup") = false)
         .def_readonly("x", &ProblemData::Client::x)
         .def_readonly("y", &ProblemData::Client::y)
         .def_readonly("delivery",
@@ -109,6 +117,10 @@ PYBIND11_MODULE(_pyvrp, m)
         .def_readonly("name",
                       &ProblemData::Client::name,
                       py::return_value_policy::reference_internal)
+        .def_readonly("pair",
+                      &ProblemData::Client::pair)
+        .def_readonly("isPickup",
+                      &ProblemData::Client::isPickup)
         .def(py::self == py::self)  // this is __eq__
         .def(py::pickle(
             [](ProblemData::Client const &client) {  // __getstate__
@@ -123,7 +135,9 @@ PYBIND11_MODULE(_pyvrp, m)
                                       client.prize,
                                       client.required,
                                       client.group,
-                                      client.name);
+                                      client.name,
+                                      client.pair,
+                                      client.isPickup);
             },
             [](py::tuple t) {  // __setstate__
                 ProblemData::Client client(
@@ -138,7 +152,9 @@ PYBIND11_MODULE(_pyvrp, m)
                     t[8].cast<pyvrp::Cost>(),               // prize
                     t[9].cast<bool>(),                      // required
                     t[10].cast<std::optional<size_t>>(),    // group
-                    t[11].cast<std::string>());             // name
+                    t[11].cast<std::string>(),             // name
+                    t[12].cast<std::optional<size_t>>(),
+                    t[13].cast<bool>());
 
                 return client;
             }))
@@ -390,13 +406,15 @@ PYBIND11_MODULE(_pyvrp, m)
                       std::vector<ProblemData::VehicleType>,
                       std::vector<Matrix<pyvrp::Distance>>,
                       std::vector<Matrix<pyvrp::Duration>>,
-                      std::vector<ProblemData::ClientGroup>>(),
+                      std::vector<ProblemData::ClientGroup>,
+                      std::vector<TaskPair>>(),
              py::arg("clients"),
              py::arg("depots"),
              py::arg("vehicle_types"),
              py::arg("distance_matrices"),
              py::arg("duration_matrices"),
-             py::arg("groups") = py::list())
+             py::arg("groups") = py::list(),
+             py::arg("pickupDeliveryPairs"))
         .def("replace",
              &ProblemData::replace,
              py::arg("clients") = py::none(),
@@ -405,6 +423,7 @@ PYBIND11_MODULE(_pyvrp, m)
              py::arg("distance_matrices") = py::none(),
              py::arg("duration_matrices") = py::none(),
              py::arg("groups") = py::none(),
+             py::arg("pickupDeliveryPairs") = py::none(),
              DOC(pyvrp, ProblemData, replace))
         .def_property_readonly("num_clients",
                                &ProblemData::numClients,
@@ -507,7 +526,8 @@ PYBIND11_MODULE(_pyvrp, m)
                                       data.vehicleTypes(),
                                       data.distanceMatrices(),
                                       data.durationMatrices(),
-                                      data.groups());
+                                      data.groups(),
+                                      data.pickupDeliveryPairs());
             },
             [](py::tuple t) {  // __setstate__
                 using Clients = std::vector<ProblemData::Client>;
@@ -516,13 +536,15 @@ PYBIND11_MODULE(_pyvrp, m)
                 using DistMats = std::vector<pyvrp::Matrix<pyvrp::Distance>>;
                 using DurMats = std::vector<pyvrp::Matrix<pyvrp::Duration>>;
                 using Groups = std::vector<ProblemData::ClientGroup>;
+                using pickupDeliveryPairs = std::vector<TaskPair>;
 
                 ProblemData data(t[0].cast<Clients>(),
                                  t[1].cast<Depots>(),
                                  t[2].cast<VehicleTypes>(),
                                  t[3].cast<DistMats>(),
                                  t[4].cast<DurMats>(),
-                                 t[5].cast<Groups>());
+                                 t[5].cast<Groups>(),
+                                 t[6].cast<pickupDeliveryPairs>());
 
                 return data;
             }));
